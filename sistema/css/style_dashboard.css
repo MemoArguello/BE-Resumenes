@@ -1,0 +1,141 @@
+/* Estilos Generales */
+.container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado */
+.form-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.header-left a.back-link {
+    color: blue;
+    text-decoration: underline;
+    font-size: 12px;
+}
+
+.header-center h1 {
+    text-align: center;
+    font-size: 18px;
+    color: #222;
+}
+
+.header-center .highlight {
+    color: green;
+    font-weight: bold;
+}
+
+.header-right {
+    text-align: right;
+    font-size: 12px;
+}
+
+.header-right .author {
+    font-weight: bold;
+}
+
+/* Titulo central */
+.title-section {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.title-section .title-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.title-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.title-icons .logo {
+    font-weight: bold;
+}
+
+.title-icons .icon {
+    font-size: 20px;
+}
+
+/* Tabla */
+.table-summary {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table-summary,
+th,
+td {
+    border: 1px solid #ccc;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #e9e9e9;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+td {
+    font-size: 12px;
+}
+
+.summary-title {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.totals {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+tfoot td {
+    font-weight: bold;
+}
+
+.left {
+    text-align: initial;
+}
+
+.centrer {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+/* Observaciones */
+.observations {
+    align-items: center;
+    margin-top: 15px;
+    display: flex;
+    gap: 20px;
+    width: 150px;
+}
+
+.observations strong {
+    font-size: 14px;
+}

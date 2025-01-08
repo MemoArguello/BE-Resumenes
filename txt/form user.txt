@@ -1,0 +1,34 @@
+<!-- <form>
+                        <div class="form-group">
+                            <label for="carpeta">Carpeta: </label>
+                            <input type="text" id="carpeta">
+                        </div>
+                        <div class="form-group">
+                            <label for="cliente-desde">Cliente Desde: </label>
+                            <input type="date" id="cliente-desde">
+                        </div>
+                        <div class="form-group">
+                            <label for="ruc">RUC: </label>
+                            <input type="text" id="ruc">
+                        </div>
+                        <div class="form-group">
+                            <label for="dv">DV: </label>
+                            <input type="text" id="dv">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre y Apellido: </label>
+                            <input type="text" id="nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre-fantasia">Nombre de Fantasía: </label>
+                            <input type="text" id="nombre-fantasia">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono: </label>
+                            <input type="text" id="telefono">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion">Dirección: </label>
+                            <input type="text" id="direccion">
+                        </div>
+                    </form> -->

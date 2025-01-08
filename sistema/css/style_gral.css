@@ -1,0 +1,634 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+.fecha {
+    font-family: 'arial';
+    letter-spacing: 2px;
+    font-size: 14px;
+    line-height: 20px;
+    padding-top: 15px;
+    color: silver;
+}
+
+/* QUITAR FLECHAS POR DEFECTO DE INPUT NUMERICO EN CHROME & SAFARI */
+input[type="number"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+/* QUITAR FLECHAS POR DEFECTO DE INPUT NUMERICO EN FIREFOX */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* CSS DEL APARTADO DE REGISTRAR CLIENTES */
+
+.client-management {
+    /* display: flex; */
+    flex-direction: column;
+    width: 100%;
+}
+
+.client-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #ccc;
+}
+
+.client-header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.client-form,
+.obligations-section {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.client-form form {
+    /* display: grid; */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.client-form .form-group label {
+    font-size: 14px;
+    color: #333;
+}
+
+.client-form .form-group input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.obligations-section header h2 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+.obligations-section table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.obligations-section table th,
+.obligations-section table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.obligations-section .add-row {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.obligations-section .add-row:hover {
+    background-color: #0056b3;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.form-actions button {
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-actions .new {
+    background-color: #28a745;
+}
+
+.form-actions .new:hover {
+    background-color: #218838;
+}
+
+.form-actions .add-button {
+    background-color: #007bff;
+}
+
+.form-actions .add-button:hover {
+    background-color: #0056b3;
+}
+
+.client-table {
+    width: 100%;
+    padding: 10px;
+    margin-left: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.client-table .search {
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    align-items: center;
+    width: 100%;
+}
+
+.client-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.client-table th,
+.client-table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+.client-table thead th {
+    background-color: #f1f1f1;
+}
+
+.client-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.client-table tbody tr:nth-child(even) {
+    background-color: #fff;
+}
+
+.client-table input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+/* ==================================================== */
+
+/* ======= CSS FORM USER ======= */
+
+h3 {
+    text-align: center;
+}
+
+.form_register_user {
+    width: 450px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.form_register_user .user_new {
+    color: black;
+    text-align: center;
+    margin-top: 8px;
+}
+
+.hr {
+    border: 0;
+    background: #ccc;
+    height: 1px;
+    margin: 10px 0;
+    display: block;
+}
+
+.form_user {
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    padding: 20px 50px;
+    border: 1px solid #d1d1d1;
+    border-radius: 10px;
+}
+
+.lb_user {
+    display: block;
+    font-size: 12pt;
+    font-family: 'GothamBook';
+    margin: 15px auto 5px auto;
+}
+
+.in_user,
+select {
+    display: block;
+    width: 100%;
+    font-size: 11pt;
+    padding: 5px;
+    border: 1px solid #85929e;
+    border-radius: 5px;
+    background: rgba(192, 192, 192, 0.192);
+    margin: 5px 0px 10px 0px;
+}
+
+.comentario {
+    width: 100%;
+    height: 150px;
+    resize: vertical;
+    /* Permite al usuario cambiar el tamaño verticalmente */
+}
+
+.notitemone option:first-child {
+    display: none;
+}
+
+.btn_save {
+    font-size: 12pt;
+    background: #12a4c6;
+    padding: 10px;
+    color: #FFF;
+    letter-spacing: 1px;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px auto;
+    display: block;
+}
+
+.alerta {
+    width: 100%;
+    background: rgba(192, 192, 192, 0.377);
+    border-radius: 6px;
+    margin: 20px auto;
+}
+
+.msg_error {
+    color: red;
+}
+
+.msg_save {
+    color: green;
+}
+
+.alerta p {
+    padding: 10px;
+}
+
+/* ====================================================== */
+
+/* ========= CONFIGURACION ========= */
+
+h3 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.form_empresa {
+    background: rgba(192, 192, 192, 0.377);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #d1d1d1;
+}
+
+.containerDataEmpresa {
+    width: 450px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.logoEmpresa {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 10px auto;
+    padding: 15px;
+    background: #E9E9E9;
+    overflow: hidden;
+    position: relative;
+}
+
+.logoEmpresa img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.editIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 100px;
+    border-radius: 50%;
+    display: none;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.logoEmpresa:hover .editIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.label {
+    width: 140px;
+    font-size: 12pt;
+    font-family: 'GothamBook';
+}
+
+.comentario_conf {
+    width: 100%;
+    height: 50px;
+    resize: vertical;
+    /* Permite al usuario cambiar el tamaño verticalmente */
+}
+
+.input {
+    width: calc(100% - 150px);
+    font-size: 11pt;
+    padding: 5px;
+    border: 1px solid #85929e;
+    border-radius: 5px;
+    background: silver;
+}
+
+/* ====================================================== */
+
+/* ==================== LISTADO USER CSS ====================== */
+
+.user-header {
+    background-color: #333;
+    color: white;
+    padding: 2px 0;
+    text-align: center;
+}
+
+.user-header h1 {
+    margin: 0;
+}
+
+.user-header button {
+    margin: 10px;
+    padding: 5px 10px;
+    background-color: #555;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.user-header button:hover {
+    background-color: #777;
+}
+
+.main-user {
+    padding: 20px;
+}
+
+.scrollable-container {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 2px;
+    background-color: rgba(255, 255, 255, 0.664);
+    border-radius: 5px;
+}
+
+.user-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-item {
+    background-color: rgba(255, 255, 255, 0.664);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-item h2 {
+    margin-top: 0;
+}
+
+.user-item p {
+    margin: 0.5rem 0;
+}
+
+.user-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn_edit,
+.btn_delete {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn_edit {
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: unset;
+}
+
+.btn_delete {
+    background-color: #f44336;
+    color: white;
+    text-decoration: unset;
+}
+
+/* ========================================================================= */
+
+/* =========== LABEL'S FORM CLIENT ============ */
+
+.lb_client_carpeta {
+    /* display: block; */
+    font-size: 10pt;
+    font-family: 'GothamBook';
+    margin: 0px 20px 5px 0px;
+}
+
+.lb_client_cldes {
+    /* display: block; */
+    font-size: 10pt;
+    font-family: 'GothamBook';
+    margin: 0px 0px 5px 20px;
+}
+
+.lb_client_ruc {
+    /* display: block; */
+    font-size: 10pt;
+    font-family: 'GothamBook';
+    margin: 0px 0px 5px 35px;
+}
+
+.lb_client_dv {
+    /* display: block; */
+    font-size: 10pt;
+    font-family: 'GothamBook';
+    margin: 0px 0px 5px 120px;
+}
+
+.lb_client_na {
+    /* display: block; */
+    font-size: 10pt;
+    font-family: 'GothamBook';
+    margin: 0px 0px 5px 0px;
+}
+
+.lb_client_nf {
+    /* display: block; */
+    font-size: 10pt;
+    font-family: 'GothamBook';
+    margin: 0px 0px 5px 110px;
+}
+
+.lb_client_tel {
+    /* display: block; */
+    font-size: 10pt;
+    font-family: 'GothamBook';
+    margin: 0px 0px 5px 0px;
+}
+
+.lb_client_dir {
+    /* display: block; */
+    font-size: 10pt;
+    font-family: 'GothamBook';
+    margin: 0px 0px 5px 0px;
+}
+
+/* ========================================= */
+
+/* ========= INPUT'S FORM CLIENT ========== */
+
+.in_client_carpeta {
+    /* display: block; */
+    width: 100px;
+    font-size: 11pt;
+    padding: 5px;
+    border: 1px solid #85929e;
+    border-radius: 5px;
+    background: silver;
+    text-decoration-style: none;
+}
+
+.in_client_cldes {
+    /* display: block; */
+    width: 130PX;
+    font-size: 11pt;
+    padding: 5px;
+    border: 1px solid #85929e;
+    border-radius: 5px;
+    background: silver;
+    margin: 0 0 0 5px;
+}
+
+.in_client_ruc {
+    /* display: block; */
+    width: 150px;
+    font-size: 11pt;
+    padding: 5px;
+    border: 1px solid #85929e;
+    border-radius: 5px;
+    background: silver;
+    margin: 0 0 0 5px;
+}
+
+.in_client_dv {
+    /* display: block; */
+    width: 50px;
+    font-size: 11pt;
+    padding: 5px;
+    border: 1px solid #85929e;
+    border-radius: 5px;
+    background: silver;
+    margin: 0px 0px 0px 5px;
+}
+
+.in_client_na {
+    /* display: block; */
+    width: 45%;
+    font-size: 11pt;
+    padding: 5px;
+    border: 1px solid #85929e;
+    border-radius: 5px;
+    background: silver;
+    margin: 0px 0px 0px 0px;
+}
+
+.in_client_nf {
+    /* display: block; */
+    width: 45%;
+    font-size: 11pt;
+    padding: 5px;
+    border: 1px solid #85929e;
+    border-radius: 5px;
+    background: silver;
+    margin: 0px 0px 0px 0px;
+}
+
+.in_client_tel {
+    /* display: block; */
+    width: 200px;
+    font-size: 11pt;
+    padding: 5px;
+    border: 1px solid #85929e;
+    border-radius: 5px;
+    background: silver;
+    margin: 0xp 0xp 0px 0px;
+}
+
+.in_client_dir {
+    /* display: block; */
+    width: 100%;
+    font-size: 11pt;
+    padding: 5px;
+    border: 1px solid #85929e;
+    border-radius: 5px;
+    background: silver;
+    margin: 0px 0px 0px 0px;
+}
+
+/* ======================================================= */
+
+.pie_pag {
+    margin-top: 10px;
+    text-align: center;
+}

@@ -67,10 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.style.display = 'block';
     };
     
-    // Función para cerrar el modal
-    function closeModal() {
-        modal.style.display = 'none';
-    }
     
     // Función para formatear fechas
     function formatDate(dateString) {
@@ -117,6 +113,12 @@ function showEditModal(client) {
 function closeEditModal() {
     document.getElementById('editModal').style.display = 'none';
 }
+
+// Función para cerrar el modal de vista previa
+function closeModal() {
+    document.getElementById('clientModal').style.display = 'none';
+}
+
 
 // Cerrar modal al hacer clic fuera
 window.onclick = function(event) {

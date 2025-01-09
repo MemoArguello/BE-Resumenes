@@ -182,7 +182,7 @@ $clientes = mysqli_num_rows($query_clientes);
     <!-- Modal para ver los detalles del cliente-->
     <div id="clientModal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
+            <span class="modal-close" onclick="closeModal()">&times;</span>
             <h2>Detalles del Cliente</h2>
             <div class="modal-body">
                 <!-- Primera Fila -->

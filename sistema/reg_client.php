@@ -2,43 +2,10 @@
 session_start();
 include "../db.php";
 
-if (!empty($_POST)) {
-    $alert = '';
-    if (empty($_POST['n_carpeta']) || empty($_POST['cliente_desde']) || empty($_POST['ruc']) || empty($_POST['dv']) || empty($_POST['nombre']) || empty($_POST['nombre_fantasia']) || empty($_POST['telefono']) || empty($_POST['direccion']) || empty($_POST['vencimiento'])) {
-        $alert = '<p class="msg_error">Todos los campos son obligatorios.</p>';
-    } else {
 
-        $carpeta = $_POST['n_carpeta'];
-        $f_cliente = $_POST['cliente_desde'];
-        $ruc = $_POST['ruc'];
-        $dv = $_POST['dv'];
-        $nombre = $_POST['nombre'];
-        $fantasia = $_POST['nombre_fantasia'];
-        $telefono = $_POST['telefono'];
-        $direccion = $_POST['direccion'];
-        $vencimiento = $_POST['vencimiento'];
-
-        $query = mysqli_query($conection, "SELECT * FROM cliente WHERE ruc = '$ruc'");
-        $result = mysqli_fetch_array($query);
-
-        if ($result > 0) {
-            $alert = '<p class="msg_error">El cliente ya existe.</p>';
-        } else {
-            $query_insert = mysqli_query($conection, "INSERT INTO cliente (n_carpeta, cliente_desde, ruc, dv, nombre, nombre_fantasia, telefono, direccion, vencimiento) VALUE ('$carpeta', '$f_cliente', '$ruc', '$dv', '$nombre', '$fantasia', '$telefono', '$direccion', '$vencimiento')");
-
-            if ($query_insert) {
-                $alert = '<p class="msg_save">Cliente creado correctamente.</p>';
-            } else {
-                $alert = '<p class="msg_error">Error al crear el cliente.</p>';
-            }
-        }
-    }
-}
-// Consulta para obtener los clientes
-$clientes = mysqli_query($conection, "SELECT * FROM cliente");
-
+$query_clientes = mysqli_query($conection, "SELECT * FROM cliente");
 mysqli_close($conection);
-$result = mysqli_num_rows($query);
+$clientes = mysqli_num_rows($query_clientes);
 ?>
 
 <!DOCTYPE html>
@@ -61,8 +28,11 @@ $result = mysqli_num_rows($query);
                 </header>
 
                 <div class="client-form">
-                <div class="alerta"><?php echo isset($alert) ? $alert : ''; ?></div>
-                    <form action="" method="POST">
+                    <div class="alerta <?php echo isset($alert) ? 'show' : ''; ?>" id="alertBox">
+                        <span class="alert-message"><?php echo isset($alert) ? $alert : ''; ?></span>
+                        <button type="button" class="close-btn" onclick="closeAlert()">&times;</button>
+                    </div>
+                    <form action="controlador_cliente.php" method="POST">
                         <input type="hidden" name="registrar_cliente" value="1">
                         <label class="lb_client_carpeta" for="carpeta">CARPETA:</label>
                         <label class="lb_client_cldes" for="f_cliente">CLIENTE DESDE:</label>
@@ -94,75 +64,192 @@ $result = mysqli_num_rows($query);
                         <br>
                         <label class="lb_client_dir" for="f_cliente">VENCIMIENTO:</label>
                         <input class="in_client_dir" type="date" name="vencimiento" id="vencimiento">
-                        <button type="submit" class="btn_save"><i class="fa-regular fa-floppy-disk"></i> Guardar</button>
+                        <input type="submit" class="btn_save" value="Guardar">
                     </form>
                 </div>
-
-                <!-- <div class="obligations-section">
-                    <header>
-                        <h2>OBLIGACIONES</h2>
-                    </header>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Obligaciones</th>
-                                <th>Importe</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td style="text-align: center;"><button style="padding-right: 5px; padding-left: 5px;">+</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button class="add-row">+</button>
-                </div> -->
 
             </div>
 
             <div class="client-table">
-                <div>
-                    <input type="text" class="search" placeholder="Buscar">
-                </div>
                 <aside>
-                    <table>
+                    <table id="clientesTable">
                         <thead>
                             <tr>
                                 <th>Carpeta</th>
-                                <th>Cliente Desde</th>
-                                <th>Nombre</th>
-                                <th>RUC DV</th>
                                 <th>Nombre y Apellido</th>
-                                <th>Nombre de fantasia</th>
-                                <th>Teléfono</th>
-                                <th>Direccion</th>
+                                <th>RUC</th>
+                                <th>Información</th>
                                 <th>Activo</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php $i = 1;
-                                foreach ($clientes as $cliente) : ?>
-                                    <tr>
-                                        <td><?= $cliente->n_carpeta ?></td>
-                                        <td><?= $cliente->cliente_desde ?></td>
-                                        <td><?= $cliente->ruc ?></td>
-                                        <td><?= $cliente->dv ?></td>
-                                        <td><?= $cliente->nombre ?></td>
-                                        <td><?= $cliente->nombre_fantasia ?></td>
-                                        <td><?= $cliente->telefono ?></td>
-                                        <td><?= $cliente->direccion ?></td>
-                                        <td><?= $cliente->vencimiento ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+                            <?php
+                            $index = 1;
+                            while ($row = mysqli_fetch_array($query_clientes)) {
+                            ?>
+                                <tr>
+                                    <td><?= $row['n_carpeta']; ?></td>
+                                    <td><?= $row['nombre']; ?></td>
+                                    <td><?= $row['ruc']; ?></td>
+                                    <td>
+                                        <button onclick="showClientDetails(<?php echo htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)"
+                                            class="btn-modal">
+                                            Ver Completo
+                                        </button>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <button onclick="showEditModal(<?php echo htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)"
+                                            class="btn-edit">
+                                            Editar
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <form action="controlador_cliente.php" method="POST" id="form-eliminar-<?= $row['id'] ?>">
+                                            <input type="hidden" name="eliminar_cliente" value="1">
+                                            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                            <!-- Otros campos del formulario -->
+                                            <button type="button" class="btn-delete" onclick="eliminarCliente(<?= $row['id'] ?>)">Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </aside>
             </div>
         </div>
     </section>
+    <!-- Modal de edición -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeEditModal()">&times;</span>
+            <h2>Editar Cliente</h2>
+            <form id="editClientForm" method="POST" action="./controlador_cliente.php">
+                <input type="hidden" name="actualizar_cliente" value="1">
+                <input type="hidden" id="edit-id" name="id">
+                <div class="row-container">
+                    <div class="form-group">
+                        <label for="edit-nombre">Nombre y Apellido:</label>
+                        <input type="text" id="edit-nombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-fantasia">Nombre de Fantasía:</label>
+                        <input type="text" id="edit-fantasia" name="nombre_fantasia" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-telefono">Teléfono:</label>
+                        <input type="text" id="edit-telefono" name="telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-vencimiento">Vencimiento:</label>
+                        <input type="date" id="edit-vencimiento" name="vencimiento" required>
+                    </div>
+                </div>
+                <div class="row-container">
+                    <div class="form-group">
+                        <label for="edit-carpeta">Carpeta:</label>
+                        <input type="number" id="edit-carpeta" name="n_carpeta" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-cliente-desde">Cliente desde:</label>
+                        <input type="date" id="edit-cliente-desde" name="cliente_desde" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-ruc">RUC:</label>
+                        <input type="number" id="edit-ruc" name="ruc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-dv">DV:</label>
+                        <input type="number" id="edit-dv" name="dv" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-direccion">Dirección:</label>
+                        <input type="text" id="edit-direccion" name="direccion" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-save">Guardar cambios</button>
+                    <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal para ver los detalles del cliente-->
+    <div id="clientModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Detalles del Cliente</h2>
+            <div class="modal-body">
+                <!-- Primera Fila -->
+                <div class="row-container">
+                    <div class="detail-box">
+                        <label>Nombre y Apellido:</label>
+                        <span id="modal-nombre"></span>
+                    </div>
+                    <div class="detail-box">
+                        <label>Nombre de Fantasía:</label>
+                        <span id="modal-fantasia"></span>
+                    </div>
+                    <div class="detail-box">
+                        <label>N° de Carpeta:</label>
+                        <span id="modal-carpeta"></span>
+                    </div>
+                    <div class="detail-box">
+                        <label>Cliente desde:</label>
+                        <span id="modal-cliente-desde"></span>
+                    </div>
+                    <div class="detail-box">
+                        <label>RUC:</label>
+                        <span id="modal-ruc"></span>
+                    </div>
+                    <div class="detail-box">
+                        <label>DV:</label>
+                        <span id="modal-dv"></span>
+                    </div>
+                </div>
+
+                <!-- Segunda Fila -->
+                <div class="row-container">
+                    <div class="detail-box">
+                        <label>Teléfono:</label>
+                        <span id="modal-telefono"></span>
+                    </div>
+                    <div class="detail-box">
+                        <label>Dirección:</label>
+                        <span id="modal-direccion"></span>
+                    </div>
+                    <div class="detail-box">
+                        <label>Fecha de Vencimiento de Obligacion:</label>
+                        <span id="modal-vencimiento"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php include "include/footer.php"; ?>
 </body>
+<script>
+    function eliminarCliente(id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sí, eliminarlo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('form-eliminar-' + id).submit();
+            }
+        })
+    }
+</script>
+
 </html>

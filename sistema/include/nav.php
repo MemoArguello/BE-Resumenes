@@ -43,8 +43,9 @@ if ($row_empesa > 0) {
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" href="#">Clientes</a></li>
-                <li><a href="reg_client.php">Registrar Clientes</a></li>
-                <li><a href="reg_salary.php">Registrar Salarios</a></li>
+                <li><a href="reg_client.php">Clientes</a></li>
+                <li><a href="reg_oblig.php">Obligaciones</a></li>
+                <li><a href="reg_salary.php">Salarios</a></li>
             </ul>
         </li>
         <li>

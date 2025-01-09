@@ -1,4 +1,6 @@
 <?php include "functions.php"; ?>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.0/css/dataTables.dataTables.min.css">
 <!-- Boxicons -->
 <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' >
 <!-- FontAwesome -->
@@ -14,3 +16,6 @@
 <script type="text/javascript" src="js/functions.js"></script>
 <!-- logo -->
 <link rel="icon" type="image/png" href="img/logo_be.png" sizes="16x16">
+<script src="https://cdn.datatables.net/2.2.0/js/dataTables.js"></script>
+<script src="js/datatable.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

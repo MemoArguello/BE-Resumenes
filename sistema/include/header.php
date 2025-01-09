@@ -1,4 +1,5 @@
 <?php
+define("APPURL", "http://localhost/BE-Resumenes");
 
 if (empty($_SESSION['active'])) {
     header('location: ../');

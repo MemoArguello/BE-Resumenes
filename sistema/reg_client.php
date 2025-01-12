@@ -15,7 +15,6 @@ $clientes = mysqli_num_rows($query_clientes);
     <meta charset="UTF-8">
     <?php include "include/script.php"; ?>
     <title>BE Estudio Contable</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -211,10 +210,6 @@ $clientes = mysqli_num_rows($query_clientes);
                         <label>DV:</label>
                         <span id="modal-dv"></span>
                     </div>
-                </div>
-
-                <!-- Segunda Fila -->
-                <div class="row-container">
                     <div class="detail-box">
                         <label>Teléfono:</label>
                         <span id="modal-telefono"></span>
@@ -227,9 +222,15 @@ $clientes = mysqli_num_rows($query_clientes);
                         <label>Fecha de Vencimiento de Obligacion:</label>
                         <span id="modal-vencimiento"></span>
                     </div>
+                    <div id="modal-obligaciones" class="detail-box">
+                        <label>Obligaciones</label>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
+    </div>
     </div>
     <?php include "include/footer.php"; ?>
 </body>

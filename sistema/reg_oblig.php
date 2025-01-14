@@ -2,32 +2,7 @@
 session_start();
 include "../db.php";
 
-if (!empty($_POST)) {
-    $alert = '';
-    if (empty($_POST['n_oblig']) || empty($_POST['monto'])) {
-        $alert = '<p class="msg_error">Todos los campos son obligatorios.</p>';
-    } else {
-
-        $obligacion = $_POST['n_oblig'];
-        $monto = $_POST['monto'];
-
-        $query = mysqli_query($conection, "SELECT * FROM obligacion WHERE n_oblig = '$obligacion'");
-        $result = mysqli_fetch_array($query);
-
-        if ($result > 0) {
-            $alert = '<p class="msg_error">Ya existe una obligación con ese nombre.</p>';
-        } else {
-            $query_insert = mysqli_query($conection, "INSERT INTO obligacion (n_oblig, monto) VALUE ('$obligacion', '$monto')");
-
-            if ($query_insert) {
-                $alert = '<p class="msg_save">Obligación registrado correctamente.</p>';
-            } else {
-                $alert = '<p class="msg_error">Error al registrar la Obligación.</p>';
-            }
-        }
-    }
-}
-$query_oblig = mysqli_query($conection, "SELECT * FROM obligacion");
+$query_oblig = mysqli_query($conection, "SELECT * FROM obligacion WHERE estado=1");
 mysqli_close($conection);
 $clientes = mysqli_num_rows($query_oblig);
 ?>
@@ -56,8 +31,8 @@ $clientes = mysqli_num_rows($query_oblig);
                         <span class="alert-message"><?php echo isset($alert) ? $alert : ''; ?></span>
                         <button type="button" class="close-btn" onclick="closeAlert()">&times;</button>
                     </div>
-                    <form action="" method="POST">
-                        <input type="hidden" name="registrar_cliente" value="1">
+                    <form action="controlador_obligaciones.php" method="POST">
+                        <input type="hidden" name="registrar_obligacion" value="1">
                         <label class="lb_client_na" for="nombre">NOMBRE DE OBLIGACIÓN:</label>
                         <br>
                         <input class="in_client_na" type="text" name="n_oblig" id="obligacion" placeholder="Nombre de la Obligacion">
@@ -66,7 +41,7 @@ $clientes = mysqli_num_rows($query_oblig);
                         <label class="lb_client_tel" for="monto">MONTO:</label>
                         <br>
                         <input class="in_client_na" type="number" name="monto" id="monto" placeholder="Monto">
-                        <button type="submit" class="btn_save"><i class="fa-regular fa-floppy-disk"></i> Guardar</button>
+                        <input type="submit" class="btn_save" value="Guardar">
                     </form>
                 </div>
 
@@ -91,11 +66,22 @@ $clientes = mysqli_num_rows($query_oblig);
                             while ($row = mysqli_fetch_array($query_oblig)) {
                             ?>
                                 <tr>
-                                    <td><?= $index + 1 ?></td>
+                                    <td><?= $index++?></td>
                                     <td><?= $row['n_oblig']; ?></td>
                                     <td><?= $row['monto']; ?></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>
+                                        <button onclick="showEditModalOblig(<?php echo htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)"
+                                            class="btn-edit">
+                                            Editar
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <form action="controlador_obligaciones.php" method="POST" id="form-eliminar-<?= $row['id'] ?>">
+                                            <input type="hidden" name="eliminar_obligacion" value="1">
+                                            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                            <button type="button" class="btn-delete" onclick="eliminarObligacion(<?= $row['id'] ?>)">Eliminar</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             <?php
                             }
@@ -106,7 +92,51 @@ $clientes = mysqli_num_rows($query_oblig);
             </div>
         </div>
     </section>
+        <!-- Modal de edición -->
+        <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeEditModal()">&times;</span>
+            <h2>Editar Cliente</h2>
+            <form id="editClientForm" method="POST" action="./controlador_obligaciones.php">
+                <input type="hidden" name="actualizar_obligacion" value="1">
+                <input type="hidden" id="edit-id" name="id">
+                <div class="row-container">
+                    <div class="form-group">
+                        <label for="edit-nombre">Nombre de la Obligación:</label>
+                        <input type="text" id="edit-nombre" name="n_oblig" required>
+                    </div>
+                </div>
+                <div class="row-container">
+                    <div class="form-group">
+                        <label for="edit-fantasia">Monto:</label>
+                        <input type="text" id="edit-monto" name="monto" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-save">Guardar cambios</button>
+                    <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <?php include "include/footer.php"; ?>
 </body>
-
+<script>
+    function eliminarObligacion(id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sí, eliminarlo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('form-eliminar-' + id).submit();
+            }
+        })
+    }
+</script>
 </html>

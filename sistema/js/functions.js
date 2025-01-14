@@ -54,15 +54,12 @@ $(document).ready(function () {
     });
   });
 });
-// Esperar a que el DOM esté completamente cargado
+  // Función para mostrar el modal y detalles del cliente
 document.addEventListener("DOMContentLoaded", function () {
-  // Obtener elementos del modal
   const modal = document.getElementById("clientModal");
   const closeBtn = document.querySelector(".modal-close");
 
-  // Función para mostrar el modal y detalles del cliente
   window.showClientDetails = function (client) {
-    // Actualizar el contenido del modal
     document.getElementById("modal-carpeta").textContent = client.n_carpeta;
     document.getElementById("modal-cliente-desde").textContent = formatDate(
       client.cliente_desde
@@ -78,83 +75,77 @@ document.addEventListener("DOMContentLoaded", function () {
       client.vencimiento
     );
 
-// Cargar las obligaciones del cliente
+// Funcion para Cargar las obligaciones del cliente
 fetch(`get_obligaciones.php?id_cliente=${client.id}`)
   .then((response) => response.json())
   .then((data) => {
     const obligacionesContainer = document.getElementById("modal-obligaciones");
-    obligacionesContainer.innerHTML = ""; // Limpiar contenido previo
+    obligacionesContainer.innerHTML = ""; 
 
     if (data.success) {
       if (data.obligaciones.length === 0) {
-        // Si no hay obligaciones, mostrar mensaje
         obligacionesContainer.innerHTML =
           "<p>No hay obligaciones registradas para este cliente.</p>";
         return;
       }
 
-      // Crear tabla para mostrar las obligaciones
-      const table = document.createElement("table");
-      table.className = "obligaciones-table"; // Clase para estilo de la tabla
+        const tableContainer = document.createElement("div");
+        tableContainer.className = "obligaciones-container";
 
-      // Crear encabezado de la tabla
-      const thead = document.createElement("thead");
-      thead.innerHTML = `
+        const table = document.createElement("table");
+        table.className = "obligaciones-table";
+
+        const thead = document.createElement("thead");
+        thead.innerHTML = `
         <tr>
-          <th>Obligaciónes</th>
+            <th>Obligaciones</th>
         </tr>
-      `;
-      table.appendChild(thead);
+        `;
+        table.appendChild(thead);
 
-      // Crear cuerpo de la tabla
-      const tbody = document.createElement("tbody");
-      data.obligaciones.forEach((obligacion) => {
+        const tbody = document.createElement("tbody");
+        data.obligaciones.forEach((obligacion) => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td>${obligacion.n_oblig}</td>
+            <td>${obligacion.n_oblig}</td>
         `;
         tbody.appendChild(tr);
-      });
-      table.appendChild(tbody);
+        });
+        table.appendChild(tbody);
 
-      // Agregar la tabla al contenedor
-      obligacionesContainer.appendChild(table);
+        tableContainer.appendChild(table);
+
+        obligacionesContainer.appendChild(tableContainer);
+
     } else {
-      // Mostrar error si no se pudieron cargar las obligaciones
       console.error("Error al cargar las obligaciones:", data.error);
       obligacionesContainer.innerHTML =
         "<p>Error al cargar las obligaciones del cliente.</p>";
     }
   })
   .catch((error) => {
-    // Mostrar error en caso de fallo de la petición
     console.error("Error en la petición:", error);
     document.getElementById("modal-obligaciones").innerHTML =
       "<p>Error al cargar las obligaciones del cliente.</p>";
   });
 
-    // Mostrar el modal
     modal.style.display = "block";
   };
 
-  // Función para formatear fechas
   function formatDate(dateString) {
     if (!dateString) return "";
     const date = new Date(dateString);
     return date.toLocaleDateString("es-PY");
   }
 
-  // Event listener para el botón de cerrar
   closeBtn.addEventListener("click", closeModal);
 
-  // Event listener para cerrar al hacer clic fuera del modal
   window.addEventListener("click", function (event) {
     if (event.target === modal) {
       closeModal();
     }
   });
 
-  // Event listener para cerrar con la tecla ESC
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" && modal.style.display === "block") {
       closeModal();
@@ -162,7 +153,33 @@ fetch(`get_obligaciones.php?id_cliente=${client.id}`)
   });
 });
 
-// Función para mostrar el modal de edición
+// Función para mostrar el modal de edición de Obligaciones
+function showEditModalOblig(obligaciones) {
+  document.getElementById("edit-id").value = obligaciones.id;
+  document.getElementById("edit-nombre").value = obligaciones.n_oblig;
+  document.getElementById("edit-monto").value = obligaciones.monto;
+
+
+  document.getElementById("editModal").style.display = "block";
+}
+
+function closeEditModal() {
+  document.getElementById("editModal").style.display = "none";
+}
+
+function closeModal() {
+  document.getElementById("clientModal").style.display = "none";
+}
+
+// Cerrar modal al hacer clic fuera
+window.onclick = function (event) {
+  const modal = document.getElementById("editModal");
+  if (event.target == modal) {
+    closeEditModal();
+  }
+};
+
+// Función para mostrar el modal de edición de cliente
 function showEditModal(client) {
   document.getElementById("edit-id").value = client.id;
   document.getElementById("edit-carpeta").value = client.n_carpeta;
@@ -178,12 +195,10 @@ function showEditModal(client) {
   document.getElementById("editModal").style.display = "block";
 }
 
-// Función para cerrar el modal de edición
 function closeEditModal() {
   document.getElementById("editModal").style.display = "none";
 }
 
-// Función para cerrar el modal de vista previa
 function closeModal() {
   document.getElementById("clientModal").style.display = "none";
 }
@@ -195,3 +210,4 @@ window.onclick = function (event) {
     closeEditModal();
   }
 };
+

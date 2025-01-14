@@ -3,7 +3,7 @@ session_start();
 include "../db.php";
 
 
-$query_clientes = mysqli_query($conection, "SELECT * FROM cliente");
+$query_clientes = mysqli_query($conection, "SELECT * FROM cliente WHERE estado=1");
 mysqli_close($conection);
 $clientes = mysqli_num_rows($query_clientes);
 ?>
@@ -145,8 +145,8 @@ $clientes = mysqli_num_rows($query_clientes);
                         <input type="text" id="edit-telefono" name="telefono" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-vencimiento">Vencimiento:</label>
-                        <input type="date" id="edit-vencimiento" name="vencimiento" required>
+                        <label for="edit-direccion">Dirección:</label>
+                        <input type="text" id="edit-direccion" name="direccion" required>
                     </div>
                 </div>
                 <div class="row-container">
@@ -167,8 +167,8 @@ $clientes = mysqli_num_rows($query_clientes);
                         <input type="number" id="edit-dv" name="dv" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-direccion">Dirección:</label>
-                        <input type="text" id="edit-direccion" name="direccion" required>
+                        <label for="edit-vencimiento">Vencimiento:</label>
+                        <input type="date" id="edit-vencimiento" name="vencimiento" required>
                     </div>
                 </div>
                 <div class="form-actions">

@@ -801,7 +801,7 @@ h3 {
     color: #495057;
 }
 
-.form-group input {
+.form-group input{
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
@@ -856,11 +856,18 @@ h3 {
     border-radius: 4px;
     cursor: pointer;
 }
-/* Tabla que ocupa el 100% */
-.obligaciones-table {
+/* Contenedor de la tabla con scroll */
+.obligaciones-container {
+    max-height: 150px; /* Altura máxima para 4 filas aprox. */
+    overflow-y: auto; /* Habilitar scroll vertical */
+    margin-top: 10px;
+    border: 1px solid #ddd; /* Opcional: borde para el contenedor */
+  }
+  
+  /* Tabla que ocupa el 100% */
+  .obligaciones-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
   }
   
   /* Encabezado */
